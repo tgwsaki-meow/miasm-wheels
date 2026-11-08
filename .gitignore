@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Build & wheels
+dist/
+build/
+wheelhouse/
+*.egg-info/
+*.whl
+
+# Upstream clone if tested locally
+miasm-upstream/
