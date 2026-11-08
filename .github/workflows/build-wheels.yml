@@ -68,4 +68,4 @@ jobs:
           gh release create v0.1.5-linux-x86_64 wheelhouse/*.whl \
             --title "Miasm 0.1.5 Linux x86_64 Prebuilt Wheels" \
             --notes "Precompiled manylinux x86_64 binary wheels for Miasm 0.1.5 (Python 3.10, 3.11, 3.12, 3.13) along with dependency wheels (future, pyparsing)." \
-            --clobber || gh release upload v0.1.5-linux-x86_64 wheelhouse/*.whl --clobber
+            || gh release upload v0.1.5-linux-x86_64 wheelhouse/*.whl --clobber
