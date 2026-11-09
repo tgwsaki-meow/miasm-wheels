@@ -9,6 +9,7 @@ dist/
 build/
 wheelhouse/
 downloaded_wheels/
+windows_wheels/
 *.egg-info/
 *.whl
 

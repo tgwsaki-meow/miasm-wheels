@@ -112,6 +112,9 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Download all built wheels
         uses: actions/download-artifact@v4
         with:
@@ -128,8 +131,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          $wheels = (Get-ChildItem -Path all_windows_wheels\*.whl).FullName
-          gh release create v0.1.5-windows-amd64 $wheels `
+          $files = @{}
+          Get-ChildItem -Recurse all_windows_wheels\*.whl | ForEach-Object {
+              if (-not $files.ContainsKey($_.Name)) {
+                  $files[$_.Name] = $_.FullName
+              }
+          }
+          $uploadList = $files.Values
+          gh release upload v0.1.5-windows-amd64 $uploadList --clobber || `
+          gh release create v0.1.5-windows-amd64 $uploadList `
             --title "Miasm 0.1.5 Windows x86_64 (win_amd64) Prebuilt Wheels" `
-            --notes "Precompiled Windows 11 / x86_64 binary wheels for Miasm 0.1.5 (CPython 3.10 - 3.14) with JIT native extensions." || `
-          gh release upload v0.1.5-windows-amd64 $wheels --clobber
+            --notes "Precompiled Windows 11 / x86_64 binary wheels for Miasm 0.1.5 (CPython 3.10 - 3.14) with JIT native extensions."
